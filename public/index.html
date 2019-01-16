@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    Your Message: <input type="text" id="messageToServer">
+    <button type="button" id="sendMessageToServer" onclick="EmitMsg()">Send!</button>
+
+    <br><br>
+
+    Server's Message: <p id="messageFromServer"></p>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io('http://localhost:8080')
+        socket.on('serverMsg', (msg) => {
+            document.getElementById('messageFromServer').innerHTML=msg.text
+        })
+
+        const EmitMsg = () => {
+            console.log('Button clicked!')
+            socket.emit('clientMsg', {
+                text: document.getElementById('messageToServer').value
+            })
+        }
+    </script>
+</body>
+</html>
